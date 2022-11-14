@@ -1,0 +1,27 @@
+{
+  "name": "stripe_payment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "hii.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunalSharma12345/stripe_payment_implementation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kunalSharma12345/stripe_payment_implementation/issues"
+  },
+  "homepage": "https://github.com/kunalSharma12345/stripe_payment_implementation#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.2",
+    "stripe": "^10.17.0"
+  }
+}
