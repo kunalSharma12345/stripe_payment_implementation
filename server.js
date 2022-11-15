@@ -1,6 +1,9 @@
 require("dotenv").config({ path: "./config/data.env" });
 const express = require("express");
 const cors = require("cors");
+const Razorpay = require("razorpay");
+const shortid = require("shortid");
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -9,6 +12,12 @@ app.use(cors());
 //     origin: "http://localhost:5300",
 //   })
 // );
+
+const razorpay = new Razorpay({
+  key_id: process.env.KEY_ID,
+  key_secret: process.env.KEY_SECRET,
+});
+
 const stripe = require("stripe")(process.env.STRIPE_PAYMENT_SECRET_KEY);
 
 const PORT = process.env.PORT || 5000;
@@ -68,6 +77,34 @@ app.get("/api/v1/success-page", async (req, res) => {
     console.log(3333333);
     res.status(301).redirect("https://www.google.com");
     console.log(444444);
+  } catch (e) {
+    res.status(500).json({
+      error: e.message,
+    });
+  }
+});
+
+// razor payment ...
+app.post("/api/v1/razor", async (req, res) => {
+  const payment_capture = 1;
+  const amount = 500;
+  const currency = "INR";
+
+  const options = {
+    amount: amount * 100,
+    currency,
+    receipt: shortid.generate(),
+    payment_capture,
+  };
+
+  try {
+    const response = await razorpay.orders.create(options);
+    console.log("response: >>>> in the /razor api call", response);
+    res.status(200).json({
+      id: response.id,
+      currency: response.currency,
+      amount: response.amount,
+    });
   } catch (e) {
     res.status(500).json({
       error: e.message,
