@@ -112,6 +112,31 @@ app.post("/api/v1/razor", async (req, res) => {
   }
 });
 
+// api for the webhooks ...
+app.post("/verification", async (req, res) => {
+  console.log(11111);
+  try {
+    console.log(2222);
+    // do the validation
+    const SECRET = "1234567890";
+    console.log(req.body);
+
+    const crypto = require("crypto");
+    const shasum = crypto.createHmac("sha256", SECRET);
+    shasum.update(JSON.stringify(req.body));
+    const digest = shasum.digest("hex");
+
+    res.status(200).json({
+      status: "okay",
+    });
+    console.log(3333);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is working at the port number ${PORT}`);
 });
