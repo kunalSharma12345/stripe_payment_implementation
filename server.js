@@ -126,6 +126,17 @@ app.post("/verification", async (req, res) => {
     shasum.update(JSON.stringify(req.body));
     const digest = shasum.digest("hex");
 
+    console.log(digest, req.headers["x-razorpay-signature"]);
+    if (digest === req.headers["x-razorpay-signature"]) {
+      // require("fs").writeSync(
+      //   "payment1.json",
+      //   JSON.stringify(req.body, null, 4)
+      // );
+      console.log("Req is legit >>");
+    } else {
+      console.log("request is not legit >>>>>>");
+    }
+
     res.status(200).json({
       status: "okay",
     });
@@ -136,6 +147,12 @@ app.post("/verification", async (req, res) => {
     });
   }
 });
+
+// apis for the payTM .......................................................................
+
+//PAYTM_MERCHANT_ID=behNHh71319413590289
+// PAYTM_MERCHANT_KEY=doRNUuo&&SUrOqd#
+// PAYTM_WEBSITE_NAME=WEBSTAGING
 
 app.listen(PORT, () => {
   console.log(`Server is working at the port number ${PORT}`);
